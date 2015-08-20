@@ -1,3 +1,4 @@
+
 <?php
 
 /**
@@ -49,31 +50,35 @@
 		USER/PW for ditt API finner du i Connect Dashboard under meny "Trust"
 */
 
+// Forventer følgende bruker/passord fra Connect Gatekeeper - lagre i en config på et trygt sted:
+$apiUser = "feideconnect";
+$apiPass = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";	// Denne må du redigere, selvsagt...
+
 
 // Vi snakker JSON
-header('Content-Type: application/json');
+header('content-type: application/json; charset=utf-8');
+// CORS
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Credentials: true");
+header("Access-Control-Allow-Methods: HEAD, GET, OPTIONS");
+header("Access-Control-Allow-Headers: Authorization, X-Requested-With, Origin, Accept, Content-Type");
+header("Access-Control-Expose-Headers: Authorization, X-Requested-With, Origin, Accept, Content-Type");
 
-// Forventet bruker/passord - lagre i en config på et trygt sted:
-$apiUser = 'feideconnect';
-$spiPass = 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx';
+// Connect kjører først en OPTIONS request med Access-Control headers. Godta dette.
+if( strcmp($_SERVER['REQUEST_METHOD'], "OPTIONS") == 0) {
+	exit(json_encode("Hei Connect GK! CORS er OK! Hilsen Simon's Vitser :-)"));
+}
 
 
 // 1. 	La oss først sjekke om forespørsel kommer fra Connect GK med riktig bruker/pass
 // 		Dersom PHP_AUTH_USER ikke er satt i det hele tatt kan vi like gjerne stoppe her
 if (!isset($_SERVER['PHP_AUTH_USER'])) {
-    header('WWW-Authenticate: Basic realm="Simons Vitsekolleksjon"');
-    header('HTTP/1.0 401 Unauthorized');
-    // Gi en feilmelding
-    exit(json_encode(array('status' => false, 'message' => 'HTTP/1.0 401 Unauthorized: Access requires Connect API GK Credentials')));
+    exit(json_encode(array("status" => false, "message" => "HTTP/1.0 401 Unauthorized: Access requires Connect API GK Credentials")));
 }
-
-
-
-
+ 
 // 2.	Sjekk at bruker/passord stemmer overens
-if(strcmp($_SERVER['PHP_AUTH_USER'], $apiUser) !== 0 || strcmp($_SERVER['PHP_AUTH_PW'], $apiPass) !== 0) {
-	// Feilmelding hvis ikke
-	exit(json_encode(array('status' => false, 'message' => 'HTTP/1.0 401 Unauthorized: Invalid Credentials')));
+if( ( strcmp($_SERVER['PHP_AUTH_USER'], $apiUser) !== 0 ) || ( strcmp($_SERVER['PHP_AUTH_PW'], $apiPass) !== 0 ) ) {
+	exit(json_encode(array("status" => false, "message" => "HTTP/1.0 401 Unauthorized: Invalid Credentials - " . $apiUser . " :: " . $apiPass)));
 }
 
 
@@ -90,28 +95,28 @@ if(strcmp($_SERVER['PHP_AUTH_USER'], $apiUser) !== 0 || strcmp($_SERVER['PHP_AUT
 $vitser = array(
 	// Familievennlig
 	array(
-			'[A]: Hørt om laksen som mista strømmen?',
-			'[A]: Har dere hørt om torsken som var lei sei?',
-			'[A]: Har du hørt om han som hadde bakteriefobi? Han kokte isbitene før han puttet dem i drikken sin :D',
+			"[A]: Hørt om laksen som mista strømmen?",
+			"[A]: Har dere hørt om torsken som var lei sei?",
+			"[A]: Har du hørt om han som hadde bakteriefobi? Han kokte isbitene før han puttet dem i drikken sin :D",
 		),
 	// Aldersgrense 9 år
 	array(
-			'[9]: Det er bedre med 10 fulger på taket enn ei ugle i potetmosen.',
-			'[9]: Hørt om kokken som var så dårlig i fotball? Sleivspark hver eneste gang.',
-			'[9]: Hørt om elektrikeren som reiste til syden for å koble av...?',
-			'[9]: Har du hørt om kona som vekket mannen midt på natten? Han hadde jo glemt å ta sovemedisinen sin...',
+			"[9]: Det er bedre med 10 fulger på taket enn ei ugle i potetmosen.",
+			"[9]: Hørt om kokken som var så dårlig i fotball? Sleivspark hver eneste gang.",
+			"[9]: Hørt om elektrikeren som reiste til syden for å koble av...?",
+			"[9]: Har du hørt om kona som vekket mannen midt på natten? Han hadde jo glemt å ta sovemedisinen sin...",
 		),
 	// Aldersgrense 15 år
 	array(
-			'[15]: Har du hørt om grisen som hadde svin på skogen?',
-			'[15]: Visste du at Trine Hattestad er veldig spydig?',
-			'[15]: Har du hørt om mannen som var så fornøyd med at svigermor bodde kun et steinkast unna? - Før eller siden må han jo treffe...',
-			'[15]: Har du hørt om når Jesus var med i svømmekonkurranse? - Han vant på "walk-over".',
+			"[15]: Har du hørt om grisen som hadde svin på skogen?",
+			"[15]: Visste du at Trine Hattestad er veldig spydig?",
+			"[15]: Har du hørt om mannen som var så fornøyd med at svigermor bodde kun et steinkast unna? - Før eller siden må han jo treffe...",
+			"[15]: Har du hørt om når Jesus var med i svømmekonkurranse? - Han vant på 'walk-over'.",
 		),
 	// Aldersgrense 18 år
 	array(
-			'[18]: Har du hørt om kannibalen som dreit ut broren sin?',
-			'[18]: Pappa, hva er en transvestitt? - Spør tante Erik...',
+			"[18]: Har du hørt om kannibalen som dreit ut broren sin?",
+			"[18]: Pappa, hva er en transvestitt? - Spør tante Erik...",
 		),
 	);
 
@@ -128,10 +133,11 @@ $vitsescope = rand(0, sizeof($aldersgrenser));
 $vits = $vitser[ $vitsescope ][ rand(0, sizeof($vitser[$vitsescope])-1 )];
 
 // 6. Returner vår tilfeldig valgte vits og ferdig.
+http_response_code(200);
 exit( 	json_encode( 
 			array(
-			  'status' => true, 
-			  'vits' => $vits
+			  "status" 	=> 	true, 
+			  "vits" 	=> 	$vits
 			)
 		)
 	);
