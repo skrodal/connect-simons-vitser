@@ -3,14 +3,16 @@ Det beste fra Simon's vitsekolleksjon!
 
 Simons Vitser er et særdeles enkelt demo-API for å demonstrere UNINETT Connect Tjenesteplattform API Gatekeeper.
 
-For å bruke selv: 
+###For å bruke selv: 
 
 1. Registrer nytt API i Connect Dashboard - https://dashboard.feideconnect.no/
-2. Legg til følgende scopes ('gk__simons-vitser' vil byttes ut med 'gk_ditt_api_navn'). Velg selv hvilke som skal ha auto-accept/moderate.
-		- Familievennlig (dette er basic scope som alltid er tilstede)
-		- 9-årsgrense	gk_simons-vitser_9
-		- 15-årsgrense	gk_simons-vitser_15
-		- 18-årsgrense	gk_simons-vitser_18 
+2. Legg til følgende scopes ('gk_simons-vitser' vil byttes ut med 'gk_ditt_api_navn'). Velg selv hvilke som skal ha auto-accept/moderate.
+
+	- Familievennlig (dette er basic scope som alltid er tilstede)
+	- 9-årsgrense	gk_simons-vitser_9
+	- 15-årsgrense	gk_simons-vitser_15
+	- 18-årsgrense	gk_simons-vitser_18 
+
 3. URL til APIet ditt vil bli noe sånn: https://{api-navn-du-valgte}.gk.feideconnect.no/{path-på-api-endpoint-du-valgte}
 
 $_SERVER er en array som bl.a. inneholder headere og autentiserings-info 
