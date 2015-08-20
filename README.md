@@ -8,7 +8,7 @@ Simons Vitser er et særdeles enkelt demo-API for å demonstrere UNINETT Connect
 1. Registrer nytt API i Connect Dashboard - https://dashboard.feideconnect.no/
 2. Legg til følgende scopes ('gk_simons-vitser' vil byttes ut med 'gk_ditt_api_navn'). Velg selv hvilke som skal ha auto-accept/moderate.
 
-	- Familievennlig (dette er basic scope som alltid er tilstede)
+	- Familievennlig (dette er basic tilgang, og ikke et scope egentlig)
 	- 9-årsgrense	gk_simons-vitser_9
 	- 15-årsgrense	gk_simons-vitser_15
 	- 18-årsgrense	gk_simons-vitser_18 
@@ -27,11 +27,11 @@ headerene om klient og bruker:
 
 Spesielt scopes og brukerinfo over er byttig for å styre tilgang. Legg merke til at api-navn i scopet (i eks gk_simons-vitser_15) droppes i headere og kun siste del (15) sendes med.
 
-En klient kan ha tilgang til 1-mange scopes. Klienten kan også bestemme seg for redusere/øke scopes i sin request basert på hvilken bruker som er logget på. 
+En klient kan ha tilgang til 0-mange scopes. Klienten kan også bestemme seg for redusere/øke scopes i sin request basert på hvilken bruker som er logget på. 
 
 I tillegg følger autentiseringsinfo fra Connect som vi kan bruke for å i det hele tatt tillate tilgang:
 
       "PHP_AUTH_USER": "feideconnect",
       "PHP_AUTH_PW": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
 
-USER/PW for ditt API finner du i Connect Dashboard under meny "trust"
+USER/PW for ditt API finner du i Connect Dashboard under meny "Trust"
