@@ -47,13 +47,15 @@
 		      "PHP_AUTH_PW": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
 
 		USER/PW for ditt API finner du i Connect Dashboard under meny "Trust"
-
-		// Vi snakker JSON
-		header('Content-Type: application/json');
-		// Forventet bruker/passord - lagre i en config på et trygt sted:
-		$apiUser = 'feideconnect';
-		$spiPass = 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx';
 */
+
+
+// Vi snakker JSON
+header('Content-Type: application/json');
+
+// Forventet bruker/passord - lagre i en config på et trygt sted:
+$apiUser = 'feideconnect';
+$spiPass = 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx';
 
 
 // 1. 	La oss først sjekke om forespørsel kommer fra Connect GK med riktig bruker/pass
