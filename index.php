@@ -97,7 +97,7 @@ $vitser = array(
 	array(
 			"[A]: Hørt om laksen som mista strømmen?",
 			"[A]: Har dere hørt om torsken som var lei sei?",
-			"[A]: Har du hørt om han som hadde bakteriefobi? Han kokte isbitene før han puttet dem i drikken sin :D",
+			"[A]: Har du hørt om han som hadde bakteriefobi? Han kokte isbitene før han puttet dem i drikken sin :D"
 		),
 	// Aldersgrense 9 år
 	array(
@@ -105,18 +105,19 @@ $vitser = array(
 			"[9]: Hørt om kokken som var så dårlig i fotball? Sleivspark hver eneste gang.",
 			"[9]: Hørt om elektrikeren som reiste til syden for å koble av...?",
 			"[9]: Har du hørt om kona som vekket mannen midt på natten? Han hadde jo glemt å ta sovemedisinen sin...",
+			"[9]: Har du hørt om elektrikeren som aldri fikk noe gjort? Det ble så mye Ohm og men..."
 		),
 	// Aldersgrense 15 år
 	array(
 			"[15]: Har du hørt om grisen som hadde svin på skogen?",
 			"[15]: Visste du at Trine Hattestad er veldig spydig?",
 			"[15]: Har du hørt om mannen som var så fornøyd med at svigermor bodde kun et steinkast unna? - Før eller siden må han jo treffe...",
-			"[15]: Har du hørt om når Jesus var med i svømmekonkurranse? - Han vant på 'walk-over'.",
+			"[15]: Har du hørt om når Jesus var med i svømmekonkurranse? - Han vant på 'walk-over'."
 		),
 	// Aldersgrense 18 år
 	array(
 			"[18]: Har du hørt om kannibalen som dreit ut broren sin?",
-			"[18]: Pappa, hva er en transvestitt? - Spør tante Erik...",
+			"[18]: Pappa, hva er en transvestitt? - Spør tante Erik..."
 		),
 	);
 
