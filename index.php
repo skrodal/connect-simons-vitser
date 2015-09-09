@@ -56,7 +56,7 @@ $apiPass = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";	// Denne må du redigere, sel
 
 
 // Vi snakker JSON
-header('content-type: application/json; charset=utf-8');
+header("content-type: application/json; charset=utf-8");
 // CORS
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Credentials: true");
@@ -65,19 +65,19 @@ header("Access-Control-Allow-Headers: Authorization, X-Requested-With, Origin, A
 header("Access-Control-Expose-Headers: Authorization, X-Requested-With, Origin, Accept, Content-Type");
 
 // Connect kjører først en OPTIONS request med Access-Control headers. Godta dette.
-if( strcmp($_SERVER['REQUEST_METHOD'], "OPTIONS") == 0) {
+if( strcmp($_SERVER["REQUEST_METHOD"], "OPTIONS") == 0) {
 	exit(json_encode("Hei Connect GK! CORS er OK! Hilsen Simon's Vitser :-)"));
 }
 
 
 // 1. 	La oss først sjekke om forespørsel kommer fra Connect GK med riktig bruker/pass
 // 		Dersom PHP_AUTH_USER ikke er satt i det hele tatt kan vi like gjerne stoppe her
-if (!isset($_SERVER['PHP_AUTH_USER'])) {
+if (!isset($_SERVER["PHP_AUTH_USER"])) {
     exit(json_encode(array("status" => false, "message" => "HTTP/1.0 401 Unauthorized: Access requires Connect API GK Credentials")));
 }
  
 // 2.	Sjekk at bruker/passord stemmer overens
-if( ( strcmp($_SERVER['PHP_AUTH_USER'], $apiUser) !== 0 ) || ( strcmp($_SERVER['PHP_AUTH_PW'], $apiPass) !== 0 ) ) {
+if( ( strcmp($_SERVER['PHP_AUTH_USER'], $apiUser) !== 0 ) || ( strcmp($_SERVER["PHP_AUTH_PW"], $apiPass) !== 0 ) ) {
 	exit(json_encode(array("status" => false, "message" => "HTTP/1.0 401 Unauthorized: Invalid Credentials - " . $apiUser . " :: " . $apiPass)));
 }
 
@@ -92,15 +92,17 @@ if( ( strcmp($_SERVER['PHP_AUTH_USER'], $apiUser) !== 0 ) || ( strcmp($_SERVER['
 //		Scopes som kommer inn i header dropper prefiks 'gk_simons-vitser' og vi ender opp med '9', '15', '18'
 
 // La meg dra ut mine beste vitser:
+
+
 $vitser = array(
 	// Familievennlig
-	array(
+	"0" => array(
 			"[A]: Hørt om laksen som mista strømmen?",
 			"[A]: Har dere hørt om torsken som var lei sei?",
 			"[A]: Har du hørt om han som hadde bakteriefobi? Han kokte isbitene før han puttet dem i drikken sin :D"
 		),
 	// Aldersgrense 9 år
-	array(
+	"9" => array(
 			"[9]: Det er bedre med 10 fulger på taket enn ei ugle i potetmosen.",
 			"[9]: Hørt om kokken som var så dårlig i fotball? Sleivspark hver eneste gang.",
 			"[9]: Hørt om elektrikeren som reiste til syden for å koble av...?",
@@ -108,14 +110,14 @@ $vitser = array(
 			"[9]: Har du hørt om elektrikeren som aldri fikk noe gjort? Det ble så mye Ohm og men..."
 		),
 	// Aldersgrense 15 år
-	array(
+	"15" => array(
 			"[15]: Har du hørt om grisen som hadde svin på skogen?",
 			"[15]: Visste du at Trine Hattestad er veldig spydig?",
 			"[15]: Har du hørt om mannen som var så fornøyd med at svigermor bodde kun et steinkast unna? - Før eller siden må han jo treffe...",
 			"[15]: Har du hørt om når Jesus var med i svømmekonkurranse? - Han vant på 'walk-over'."
 		),
 	// Aldersgrense 18 år
-	array(
+	"18" => array(
 			"[18]: Har du hørt om kannibalen som dreit ut broren sin?",
 			"[18]: Pappa, hva er en transvestitt? - Spør tante Erik..."
 		),
@@ -124,12 +126,14 @@ $vitser = array(
 
 // 4. 	Sjekk hvilke scopes (aldersgrense) klienten har tilgang til (ingen eller flere av 9, 15, 18). 
 //		Dersom ett eller flere scopes, konverter den komma-separerte String'en til en array:
-$aldersgrenser = empty($_SERVER['HTTP_X_FEIDECONNECT_SCOPES']) ? array() : explode(',', $_SERVER['HTTP_X_FEIDECONNECT_SCOPES']);
+$aldersgrenser = empty($_SERVER["HTTP_X_FEIDECONNECT_SCOPES"]) ? array() : explode(',', $_SERVER["HTTP_X_FEIDECONNECT_SCOPES"]);
+array_push($aldersgrenser, "0");
 
 
 // 5. 	Start jobben med å finne en passende vits iht. godkjente aldersgrenser
 //		Først, tilfeldig aldersnivå (nivå 1 i $vitser-array): 
-$vitsescope = rand(0, sizeof($aldersgrenser));
+	//$vitsescope = rand(0, sizeof($aldersgrenser));
+$vitsescope = array_rand($aldersgrenser);
 //		Så, velg en konkret vits innenfor denne aldersgrensen $vitser[x][rand]:
 $vits = $vitser[ $vitsescope ][ rand(0, sizeof($vitser[$vitsescope])-1 )];
 
