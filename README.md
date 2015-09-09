@@ -8,6 +8,8 @@ Simons Vitser er et særdeles enkelt demo-API for å demonstrere UNINETT Connect
 
 ###For å bruke selv: 
 
+Dersom du ønsker å sette opp APIet på egen server må du ha tilgang til nettopp det: en egen server. Dump `index.php` ett eller annet sted på serveren din og gjør så følgende:
+
 1. *Registrer nytt API i Connect Dashboard - https://dashboard.feideconnect.no/*
 2. *Legg til følgende scopes ('gk_simons-vitser' vil byttes ut med 'gk_ditt_api_navn')*: 
 	
