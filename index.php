@@ -54,7 +54,6 @@
 $apiUser = "feideconnect";
 $apiPass = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";	// Denne må du redigere, selvsagt...
 
-
 // Vi snakker JSON
 header("content-type: application/json; charset=utf-8");
 // CORS
@@ -93,47 +92,44 @@ if( ( strcmp($_SERVER['PHP_AUTH_USER'], $apiUser) !== 0 ) || ( strcmp($_SERVER["
 
 // La meg dra ut mine beste vitser:
 
-
 $vitser = array(
 	// Familievennlig
 	"0" => array(
-			"[A]: Hørt om laksen som mista strømmen?",
-			"[A]: Har dere hørt om torsken som var lei sei?",
-			"[A]: Har du hørt om han som hadde bakteriefobi? Han kokte isbitene før han puttet dem i drikken sin :D"
+			"Hørt om laksen som mista strømmen?",
+			"Har dere hørt om torsken som var lei sei?",
+			"Har du hørt om han som hadde bakteriefobi? Han kokte isbitene før han puttet dem i drikken sin :D"
 		),
 	// Aldersgrense 9 år
 	"9" => array(
-			"[9]: Det er bedre med 10 fulger på taket enn ei ugle i potetmosen.",
-			"[9]: Hørt om kokken som var så dårlig i fotball? Sleivspark hver eneste gang.",
-			"[9]: Hørt om elektrikeren som reiste til syden for å koble av...?",
-			"[9]: Har du hørt om kona som vekket mannen midt på natten? Han hadde jo glemt å ta sovemedisinen sin...",
-			"[9]: Har du hørt om elektrikeren som aldri fikk noe gjort? Det ble så mye Ohm og men..."
+			"Det er bedre med 10 fulger på taket enn ei ugle i potetmosen.",
+			"Hørt om kokken som var så dårlig i fotball? Sleivspark hver eneste gang.",
+			"Hørt om elektrikeren som reiste til syden for å koble av...?",
+			"Har du hørt om kona som vekket mannen midt på natten? Han hadde jo glemt å ta sovemedisinen sin...",
+			"Har du hørt om elektrikeren som aldri fikk noe gjort? Det ble så mye Ohm og men..."
 		),
 	// Aldersgrense 15 år
 	"15" => array(
-			"[15]: Har du hørt om grisen som hadde svin på skogen?",
-			"[15]: Visste du at Trine Hattestad er veldig spydig?",
-			"[15]: Har du hørt om mannen som var så fornøyd med at svigermor bodde kun et steinkast unna? - Før eller siden må han jo treffe...",
-			"[15]: Har du hørt om når Jesus var med i svømmekonkurranse? - Han vant på 'walk-over'."
+			"Har du hørt om grisen som hadde svin på skogen?",
+			"Visste du at Trine Hattestad er veldig spydig?",
+			"Har du hørt om mannen som var så fornøyd med at svigermor bodde kun et steinkast unna? - Før eller siden må han jo treffe...",
+			"Har du hørt om når Jesus var med i svømmekonkurranse? - Han vant på 'walk-over'."
 		),
 	// Aldersgrense 18 år
 	"18" => array(
-			"[18]: Har du hørt om kannibalen som dreit ut broren sin?",
-			"[18]: Pappa, hva er en transvestitt? - Spør tante Erik..."
+			"Har du hørt om kannibalen som dreit ut broren sin?",
+			"Pappa, hva er en transvestitt? - Spør tante Erik..."
 		),
 	);
 
 
-// 4. 	Sjekk hvilke scopes (aldersgrense) klienten har tilgang til (ingen eller flere av 9, 15, 18). 
-//		Dersom ett eller flere scopes, konverter den komma-separerte String'en til en array:
-$aldersgrenser = empty($_SERVER["HTTP_X_FEIDECONNECT_SCOPES"]) ? array() : explode(',', $_SERVER["HTTP_X_FEIDECONNECT_SCOPES"]);
-array_push($aldersgrenser, "0");
-
+// 4. 	Sjekk hvilke scopes (aldersgrense) klienten har tilgang til (ingen eller flere av 0, 9, 15, 18). 
+// 		- Dersom ingen scopes utover "basic" - gi default "0" (familievennlig)
+//		- Dersom ett eller flere scopes, konverter den komma-separerte String'en til en array:
+$aldersgrenser = empty($_SERVER["HTTP_X_FEIDECONNECT_SCOPES"]) ? array("0") : explode(',', $_SERVER["HTTP_X_FEIDECONNECT_SCOPES"]);
 
 // 5. 	Start jobben med å finne en passende vits iht. godkjente aldersgrenser
 //		Først, tilfeldig aldersnivå (nivå 1 i $vitser-array): 
-	//$vitsescope = rand(0, sizeof($aldersgrenser));
-$vitsescope = array_rand($aldersgrenser);
+$vitsescope = $aldersgrenser[array_rand($aldersgrenser,1)];
 //		Så, velg en konkret vits innenfor denne aldersgrensen $vitser[x][rand]:
 $vits = $vitser[ $vitsescope ][ rand(0, sizeof($vitser[$vitsescope])-1 )];
 
@@ -142,9 +138,8 @@ http_response_code(200);
 exit( 	json_encode( 
 			array(
 			  "status" 	=> 	true, 
-			  "vits" 	=> 	$vits
+			  "vits" 	=> 	$vits,
+			  "scope"	=>  $vitsescope
 			)
 		)
 	);
-
-
