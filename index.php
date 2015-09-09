@@ -10,46 +10,6 @@
  * @since August 2015
  */ 
 
-/*
-		# Simons Vitser
-		Det beste fra Simon's vitsekolleksjon!
-
-		Simons Vitser er et særdeles enkelt demo-API for å demonstrere UNINETT Connect Tjenesteplattform API Gatekeeper.
-
-		###For å bruke selv: 
-
-		1. Registrer nytt API i Connect Dashboard - https://dashboard.feideconnect.no/
-		2. Legg til følgende scopes ('gk_simons-vitser' vil byttes ut med 'gk_ditt_api_navn'). Velg selv hvilke som skal ha auto-accept/moderate.
-
-			- Familievennlig (dette er basic tilgang, og ikke et scope egentlig)
-			- 9-årsgrense	gk_simons-vitser_9
-			- 15-årsgrense	gk_simons-vitser_15
-			- 18-årsgrense	gk_simons-vitser_18 
-
-		3. URL til APIet ditt vil bli noe sånn: https://{api-navn-du-valgte}.gk.feideconnect.no/{path-på-api-endpoint-du-valgte}
-
-		$_SERVER er en array som bl.a. inneholder headere og autentiserings-info 
-		som er svært nyttig å benytte seg av.
-		Dersom forespørsel kommer via Connect API Gatekeeper kan vi bl.a. se disse 
-		headerene om klient og bruker:
-
-		      "HTTP_X_FEIDECONNECT_CLIENTID": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
-		      "HTTP_X_FEIDECONNECT_SCOPES": "9,15,18",
-		      "HTTP_X_FEIDECONNECT_USERID": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
-		      "HTTP_X_FEIDECONNECT_USERID_SEC": "feide:simon@uninett.no",
-
-		Spesielt scopes og brukerinfo over er byttig for å styre tilgang. Legg merke til at api-navn i scopet (i eks gk_simons-vitser_15) droppes i headere og kun siste del (15) sendes med.
-
-		En klient kan ha tilgang til 0-mange scopes. Klienten kan også bestemme seg for redusere/øke scopes i sin request basert på hvilken bruker som er logget på. 
-
-		I tillegg følger autentiseringsinfo fra Connect som vi kan bruke for å i det hele tatt tillate tilgang:
-
-		      "PHP_AUTH_USER": "feideconnect",
-		      "PHP_AUTH_PW": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
-
-		USER/PW for ditt API finner du i Connect Dashboard under meny "Trust"
-*/
-
 // Forventer følgende bruker/passord fra Connect Gatekeeper - lagre i en config på et trygt sted:
 $apiUser = "feideconnect";
 $apiPass = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";	// Denne må du redigere, selvsagt...
@@ -83,15 +43,16 @@ if( ( strcmp($_SERVER['PHP_AUTH_USER'], $apiUser) !== 0 ) || ( strcmp($_SERVER["
 
 // 3. 	Vi er inne! 
 //		Vitse-APIet er definert i Dashboard med følgende scopes:
-//			- A (alle har tilgang)	: 	gk_simons-vitser
+//			- Basic					: 	Basic scope følger ikke med som en egen verdi via Connect Gatekeeper
+//			- Familievennlig ('0')	: 	gk_simons-vitser_0
 //			- 9-årsgrense ('9')		:	gk_simons-vitser_9
 //			- 15-årsgrense ('15')	:	gk_simons-vitser_15
 //			- 18-årsgrense ('18')	:	gk_simons-vitser_18
 //
-//		Scopes som kommer inn i header dropper prefiks 'gk_simons-vitser' og vi ender opp med '9', '15', '18'
+//		Scopes som kommer inn i header dropper prefiks 'gk_simons-vitser' og vi ender opp med '0', '9', '15', '18'
 
-// La meg dra ut mine beste vitser:
-
+// La meg dra ut noen av mine beste vitser. 
+// Du kan gjerne legge til flere, men vær obs på at jeg har lagt lista rimelig høyt ;-)
 $vitser = array(
 	// Familievennlig
 	"0" => array(
@@ -123,14 +84,14 @@ $vitser = array(
 
 
 // 4. 	Sjekk hvilke scopes (aldersgrense) klienten har tilgang til (ingen eller flere av 0, 9, 15, 18). 
-// 		- Dersom ingen scopes utover "basic" - gi default "0" (familievennlig)
+// 		- Dersom ingen scopes utover "basic" vil HTTP_X_FEIDECONNECT_SCOPES være tom - gi da default "0" (familievennlig)
 //		- Dersom ett eller flere scopes, konverter den komma-separerte String'en til en array:
 $aldersgrenser = empty($_SERVER["HTTP_X_FEIDECONNECT_SCOPES"]) ? array("0") : explode(',', $_SERVER["HTTP_X_FEIDECONNECT_SCOPES"]);
 
-// 5. 	Start jobben med å finne en passende vits iht. godkjente aldersgrenser
-//		Først, tilfeldig aldersnivå (nivå 1 i $vitser-array): 
+// 5. 	Start jobben med å finne en passende vits iht. godkjente aldersgrenser (scopes)
+//		- Først, velg et tilfeldig aldersnivå ut av de scopes klienten har tilgang til  (nivå 1 i $vitser-array): 
 $vitsescope = $aldersgrenser[array_rand($aldersgrenser,1)];
-//		Så, velg en konkret vits innenfor denne aldersgrensen $vitser[x][rand]:
+//		Så, velg en konkret vits innenfor denne aldersgrensen $vitser[scope][random]:
 $vits = $vitser[ $vitsescope ][ rand(0, sizeof($vitser[$vitsescope])-1 )];
 
 // 6. Returner vår tilfeldig valgte vits og ferdig.
@@ -139,7 +100,7 @@ exit( 	json_encode(
 			array(
 			  "status" 	=> 	true, 
 			  "vits" 	=> 	$vits,
-			  "scope"	=>  $vitsescope
+			  "scope"	=>  $vitsescope // '0' || '9' || '15' || '18'
 			)
 		)
 	);
