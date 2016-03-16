@@ -84,9 +84,9 @@ $vitser = array(
 
 
 // 4. 	Sjekk hvilke scopes (aldersgrense) klienten har tilgang til (ingen eller flere av 0, 9, 15, 18). 
-// 		- Dersom ingen scopes utover "basic" vil HTTP_X_FEIDECONNECT_SCOPES være tom - gi da default "0" (familievennlig)
+// 		- Dersom ingen scopes utover "basic" vil HTTP_X_DATAPORTEN_SCOPES være tom - gi da default "0" (familievennlig)
 //		- Dersom ett eller flere scopes, konverter den komma-separerte String'en til en array:
-$aldersgrenser = empty($_SERVER["HTTP_X_FEIDECONNECT_SCOPES"]) ? array("0") : explode(',', $_SERVER["HTTP_X_FEIDECONNECT_SCOPES"]);
+$aldersgrenser = empty($_SERVER["HTTP_X_DATAPORTEN_SCOPES"]) ? array("0") : explode(',', $_SERVER["HTTP_X_DATAPORTEN_SCOPES"]);
 
 // 5. 	Start jobben med å finne en passende vits iht. godkjente aldersgrenser (scopes)
 //		- Først, velg et tilfeldig aldersnivå ut av de scopes klienten har tilgang til  (nivå 1 i $vitser-array): 
