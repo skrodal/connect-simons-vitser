@@ -4,14 +4,14 @@
 /**
  * Simons Vitser
  *
- * Et enkelt demo-API for å demonstrere UNINETT Connect Tjenesteplattform.
+ * Et enkelt demo-API for å demonstrere Dataporten Tjenesteplattform.
  *
  * @author Simon Skrødal
  * @since August 2015
  */ 
 
-// Forventer følgende bruker/passord fra Connect Gatekeeper - lagre i en config på et trygt sted:
-$apiUser = "feideconnect";
+// Forventer følgende bruker/passord fra Dataporten Gatekeeper - lagre i en config på et trygt sted:
+$apiUser = "dataporten";
 $apiPass = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";	// Denne må du redigere, selvsagt...
 
 // Vi snakker JSON
@@ -25,14 +25,14 @@ header("Access-Control-Expose-Headers: Authorization, X-Requested-With, Origin, 
 
 // Connect kjører først en OPTIONS request med Access-Control headers. Godta dette.
 if( strcmp($_SERVER["REQUEST_METHOD"], "OPTIONS") == 0) {
-	exit(json_encode("Hei Connect GK! CORS er OK! Hilsen Simon's Vitser :-)"));
+	exit(json_encode("Hei Dataporten GK! CORS er OK! Hilsen Simon's Vitser :-)"));
 }
 
 
-// 1. 	La oss først sjekke om forespørsel kommer fra Connect GK med riktig bruker/pass
+// 1. 	La oss først sjekke om forespørsel kommer fra Dataporten GK med riktig bruker/pass
 // 		Dersom PHP_AUTH_USER ikke er satt i det hele tatt kan vi like gjerne stoppe her
 if (!isset($_SERVER["PHP_AUTH_USER"])) {
-    exit(json_encode(array("status" => false, "message" => "HTTP/1.0 401 Unauthorized: Access requires Connect API GK Credentials")));
+    exit(json_encode(array("status" => false, "message" => "HTTP/1.0 401 Unauthorized: Access requires Dataporten API GK Credentials")));
 }
  
 // 2.	Sjekk at bruker/passord stemmer overens
