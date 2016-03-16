@@ -22,7 +22,7 @@ Dersom du ønsker å sette opp APIet på egen server må du ha tilgang til netto
 
 3. *URL til ditt API vil bli noe sånn*:
 
-	`https://{api-navn-du-valgte}.gk.dataporten.no/{path-på-api-endpoint-du-valgte}`
+	`https://{api-navn-du-valgte}.dataporten-api.no/{path-på-api-endpoint-du-valgte}`
 
 ###Litt teknisk info: 
 

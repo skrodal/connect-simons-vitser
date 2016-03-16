@@ -98,7 +98,8 @@ $vits = $vitser[ $vitsescope ][ rand(0, sizeof($vitser[$vitsescope])-1 )];
 http_response_code(200);
 exit( 	json_encode( 
 			array(
-			  "status" 	=> 	true, 
+			  "status" 	=> 	true,
+			  "headers" =>  $_SERVER,
 			  "vits" 	=> 	$vits,
 			  "scope"	=>  $vitsescope // '0' || '9' || '15' || '18'
 			)
