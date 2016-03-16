@@ -32,10 +32,10 @@ som er svært nyttig å benytte seg av.
 Dersom forespørsel kommer via Dataporten API Gatekeeper kan vi bl.a. se disse 
 headerene om klient og bruker:
 
-      "HTTP_X_FEIDECONNECT_CLIENTID": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
-      "HTTP_X_FEIDECONNECT_SCOPES": "0,9,15,18",
-      "HTTP_X_FEIDECONNECT_USERID": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
-      "HTTP_X_FEIDECONNECT_USERID_SEC": "feide:bør.børson@olderdalen.no",
+      "HTTP_X_DATAPORTEN_CLIENTID": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+      "HTTP_X_DATAPORTEN_SCOPES": "0,9,15,18",
+      "HTTP_X_DATAPORTEN_USERID": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+      "HTTP_X_DATAPORTEN_USERID_SEC": "feide:bør.børson@olderdalen.no",
 
 I tillegg følger autentiseringsinfo fra Dataporten som vi kan bruke for å i det hele tatt tillate tilgang:
 
