@@ -99,7 +99,6 @@ http_response_code(200);
 exit( 	json_encode( 
 			array(
 			  "status" 	=> 	true,
-			  "headers" =>  $_SERVER,
 			  "vits" 	=> 	$vits,
 			  "scope"	=>  $vitsescope // '0' || '9' || '15' || '18'
 			)
